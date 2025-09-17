@@ -36,7 +36,7 @@
   <div class="card nearby" data-id="home-nearby" *ngIf="nearby().length">
     <h3>Popular Nearby</h3>
     <div class="nearby-grid" data-id="home-nearby-grid">
-      <a *ngFor="let n of nearby()" [href]="n.wikipediaUrl" [attr.target]="n.wikipediaUrl ? '_blank' : null" rel="noopener noreferrer" class="place" [class.linked]="n.wikipediaUrl">
+      <a *ngFor="let n of nearby()" [attr.href]="n.wikipediaUrl || null" [attr.target]="n.wikipediaUrl ? '_blank' : null" rel="noopener noreferrer" class="place" [class.linked]="n.wikipediaUrl" (click)="!n.wikipediaUrl ? $event.preventDefault() : null">
         <div class="image-container">
           <img *ngIf="n.thumbnail" [src]="n.thumbnail" alt="{{ n.name }}" data-id="home-nearby-image" />
           <div *ngIf="!n.thumbnail" class="fallback-icon">
