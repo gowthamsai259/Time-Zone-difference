@@ -1,0 +1,15 @@
+<div class="field" data-id="search-field">
+  <label>{{ label }}</label>
+  <div class="input-wrapper">
+    <input type="text" data-id="search-input" [placeholder]="placeholder" [value]="query()" (input)="onInput($any($event.target).value)" />
+    <div class="spinner" *ngIf="isLoading()"></div>
+  </div>
+  <div class="dropdown card" data-id="search-dropdown" *ngIf="isOpen()">
+    <div class="item" data-id="search-item-my-location" *ngIf="label === 'Source Location'" (click)="choose({id:'me', name: 'My location', lat: 0, lon: 0})">My location</div>
+    <div class="item" data-id="search-item" *ngFor="let r of results()" (click)="choose(r)">{{ r.name }}</div>
+    <div class="item" data-id="search-item-loading" *ngIf="isLoading() && !results().length">Searching…</div>
+  </div>
+  <div class="hint" data-id="search-hint">Type at least 2 letters to search cities</div>
+</div>
+
+

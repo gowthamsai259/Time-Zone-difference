@@ -1,0 +1,61 @@
+<app-header [shareUrl]="shareUrl()" data-id="home-header" />
+
+<div class="container layout" data-id="home-layout">
+  <div class="top" data-id="home-top">
+    <app-search label="Source Location" (selected)="setSource($event)"></app-search>
+    <app-search label="Destination Location" (selected)="setDestination($event)"></app-search>
+  </div>
+
+  <div class="card metrics" data-id="home-metrics" *ngIf="metrics() as m; else initialState">
+    <div class="times" data-id="home-times">
+      <div data-id="home-time-source">
+        <div class="label" data-id="home-time-source-label">Source Time</div>
+        <div class="value" data-id="home-time-source-value">{{ sourceTime() }}</div>
+        <div class="sub" data-id="home-time-source-tz">{{ m.tzSource }}</div>
+      </div>
+      <div data-id="home-time-destination">
+        <div class="label" data-id="home-time-destination-label">Destination Time</div>
+        <div class="value" data-id="home-time-destination-value">{{ destinationTime() }}</div>
+        <div class="sub" data-id="home-time-destination-tz">{{ m.tzDest }}</div>
+      </div>
+      <div data-id="home-time-diff">
+        <div class="label" data-id="home-time-diff-label">Difference</div>
+        <div class="value" data-id="home-time-diff-value">{{ timeDifferenceText() }}</div>
+        <div class="sub" data-id="home-distance-flight">Distance: {{ m.distanceKm | number:'1.0-0' }} km • Flight ~ {{ m.estimatedFlightHours | number:'1.0-1' }} h</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #initialState>
+    <div class="card initial-state">
+      <p>Select a source and destination to see the magic happen!</p>
+      <p>You can start by searching for a city or using your current location.</p>
+    </div>
+  </ng-template>
+
+  <div class="card nearby" data-id="home-nearby" *ngIf="nearby().length">
+    <h3>Popular Nearby</h3>
+    <div class="nearby-grid" data-id="home-nearby-grid">
+      <a *ngFor="let n of nearby()" [href]="n.wikipediaUrl" [attr.target]="n.wikipediaUrl ? '_blank' : null" rel="noopener noreferrer" class="place" [class.linked]="n.wikipediaUrl">
+        <div class="image-container">
+          <img *ngIf="n.thumbnail" [src]="n.thumbnail" alt="{{ n.name }}" data-id="home-nearby-image" />
+          <div *ngIf="!n.thumbnail" class="fallback-icon">
+              <span *ngIf="n.category === 'restaurant'">🍴</span>
+              <span *ngIf="n.category === 'cafe'">☕️</span>
+              <span *ngIf="n.category === 'museum'">🏛️</span>
+              <span *ngIf="n.category === 'attraction'">⭐</span>
+              <span *ngIf="n.category === 'wikipedia'">📚</span>
+              <span *ngIf="!n.category || (n.category !== 'restaurant' && n.category !== 'cafe' && n.category !== 'museum' && n.category !== 'attraction' && n.category !== 'wikipedia')">📍</span>
+          </div>
+        </div>
+        <div class="name" data-id="home-nearby-name">{{ n.name }}</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card map-card" data-id="home-map-card">
+    <app-map [source]="source()" [destination]="destination()"></app-map>
+  </div>
+</div>
+
+

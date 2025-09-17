@@ -1,0 +1,14 @@
+<header class="header" data-id="header-root">
+  <div class="container bar" data-id="header-bar">
+    <div class="brand" data-id="header-brand">
+      <span class="logo">TZ</span>
+      <span class="name">Time Zone Difference</span>
+    </div>
+    <div class="actions" data-id="header-actions">
+      <button class="btn secondary" data-id="btn-toggle-theme" (click)="toggleTheme()">{{ theme() === 'light' ? 'Dark' : 'Light' }} Mode</button>
+      <a class="btn" data-id="btn-share" *ngIf="shareUrl" [href]="shareUrl" target="_blank" rel="noopener">Share</a>
+    </div>
+  </div>
+</header>
+
+
